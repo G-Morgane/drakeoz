@@ -175,3 +175,80 @@ body.overlay {
   min-height: 0;
   overflow: hidden;
 }
+
+/* ---------------------------------------------------------------------------
+   Cartes à collectionner (GameCard)
+   --------------------------------------------------------------------------- */
+.gc {
+  container-type: inline-size;
+  --gc-c1: hsl(var(--hue) 55% 42%);
+  --gc-c2: hsl(calc(var(--hue) + 40) 60% 22%);
+  box-shadow: 0 10px 30px -14px rgb(0 0 0 / 0.6);
+}
+.dark .gc {
+  --gc-c1: hsl(var(--hue) 50% 34%);
+  --gc-c2: hsl(calc(var(--hue) + 40) 55% 12%);
+}
+
+/* Visuel généré : dégradé teinté par carte, grain, lueur centrale. */
+.gc-art {
+  color: #fff;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 60%, rgb(255 255 255 / 0.18), transparent 70%),
+    linear-gradient(160deg, var(--gc-c1), var(--gc-c2));
+}
+.gc-mono {
+  background-image: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 60%, var(--gold-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.45));
+}
+.gc-bar {
+  background-image: linear-gradient(90deg, var(--gold-2), var(--gold-1));
+}
+
+/* Cadres par rareté : le padding de .gc laisse voir ce fond. */
+.gc-commune { background: var(--line); }
+.gc-commune .gc-badge { background: color-mix(in srgb, var(--surface) 70%, transparent); color: var(--muted); }
+
+.gc-rare { background: linear-gradient(160deg, #7dd3fc, #0284c7 45%, #0c4a6e); box-shadow: 0 10px 30px -14px rgb(2 132 199 / 0.7); }
+.gc-rare .gc-badge { background: rgb(2 132 199 / 0.85); color: #fff; }
+
+.gc-epique { background: linear-gradient(160deg, #f0abfc, #a21caf 45%, #4a044e); box-shadow: 0 10px 34px -14px rgb(162 28 175 / 0.8); }
+.gc-epique .gc-badge { background: rgb(162 28 175 / 0.85); color: #fff; }
+
+.gc-legendaire {
+  background: linear-gradient(120deg, var(--gold-3), var(--gold-1) 25%, var(--gold-2) 50%, var(--gold-1) 75%, var(--gold-3));
+  background-size: 300% 300%;
+  animation: gc-foil 6s linear infinite;
+  box-shadow: 0 12px 40px -12px color-mix(in srgb, var(--gold-2) 80%, transparent);
+}
+.gc-legendaire .gc-badge { background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); color: var(--on-gold); }
+
+@keyframes gc-foil {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* Reflet diagonal qui traverse la carte au survol. */
+.gc-sheen {
+  background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.22) 50%, transparent 65%);
+  background-size: 250% 100%;
+  background-position: 120% 0;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.gc:hover .gc-sheen {
+  opacity: 1;
+  animation: gc-sheen 900ms ease-out forwards;
+}
+@keyframes gc-sheen {
+  from { background-position: 120% 0; }
+  to { background-position: -40% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-legendaire { animation: none; }
+  .gc:hover .gc-sheen { animation: none; opacity: 0; }
+}
