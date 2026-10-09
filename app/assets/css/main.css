@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Palette tirée du logo (brun, rouille, crème), relevée d'or en accent. */
+:root {
+  --bg: #f7f0e4;
+  --bg-deep: #ead6b4;
+  --surface: #fffaf2;
+  --surface-2: #f3e7d3;
+  --ink: #24130c;
+  --muted: #73584a;
+  --line: #e2cfb0;
+  --accent: #8f6412;
+  --accent-2: #8c3a1f;
+  --glow: #e0b45c;
+  --gold-1: #d9ac52;
+  --gold-2: #ad7d22;
+  --gold-3: #6e4709;
+  --on-gold: #1f1206;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #120a07;
+  --bg-deep: #2e160d;
+  --surface: #1b100b;
+  --surface-2: #261710;
+  --ink: #f6ecdc;
+  --muted: #b49b86;
+  --line: #3a2619;
+  --accent: #e0b45c;
+  --accent-2: #c46a3a;
+  --glow: #b07a26;
+  --gold-1: #f6dc9c;
+  --gold-2: #d6a446;
+  --gold-3: #9c6c1c;
+  --on-gold: #1a0e05;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-display: "Oswald", "Trebuchet MS", ui-sans-serif, sans-serif;
+  --font-sans: "Public Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-glow: var(--glow);
+  --color-gold-1: var(--gold-1);
+  --color-gold-2: var(--gold-2);
+  --color-gold-3: var(--gold-3);
+  --color-on-gold: var(--on-gold);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -12%, color-mix(in srgb, var(--glow) 22%, transparent), transparent 70%),
+    radial-gradient(ellipse 90% 60% at 50% -10%, var(--bg-deep), transparent 75%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+/* Étiquette en capitales espacées, comme le mot DRAKEOZ du logo. */
+@utility label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+@utility card {
+  background-color: var(--surface);
+  background-image: linear-gradient(180deg, color-mix(in srgb, var(--gold-2) 5%, transparent), transparent 40%);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gold-1) 8%, transparent);
+}
+
+/* Texte doré en dégradé, pour les grands titres. */
+@utility text-gold {
+  background-image: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Filet doré qui s'efface sur les bords. */
+@utility gold-rule {
+  height: 1px;
+  background-image: linear-gradient(90deg, transparent, var(--gold-2), transparent);
+  opacity: 0.6;
+}
+
+@utility input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--line);
+  background-color: var(--bg);
+  padding: 0.6rem 0.85rem;
+  color: var(--ink);
+  outline: none;
+  &:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+}
+
+@utility btn-primary {
+  border-radius: 9999px;
+  background-image: linear-gradient(180deg, var(--gold-1), var(--gold-2) 60%, var(--gold-3));
+  box-shadow: 0 6px 24px -10px var(--gold-2), inset 0 1px 0 rgb(255 255 255 / 0.35);
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  color: var(--on-gold);
+  transition: filter 150ms, transform 150ms;
+  &:hover { filter: brightness(1.08); }
+  &:active { transform: translateY(1px); }
+  &:disabled { opacity: 0.5; filter: none; }
+}
+
+@utility btn-ghost {
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--gold-2) 45%, var(--line));
+  padding: 0.6rem 1.25rem;
+  font-weight: 500;
+  transition: background-color 150ms, border-color 150ms;
+  &:hover {
+    border-color: var(--gold-2);
+    background-color: color-mix(in srgb, var(--gold-2) 10%, transparent);
+  }
+}
+
+/* Bouton Twitch quand le live tourne : rouge, halo qui respire. */
+@utility btn-live {
+  border-radius: 9999px;
+  background-image: linear-gradient(180deg, #ef4444, #b91c1c);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 0 0 1px color-mix(in srgb, var(--gold-2) 60%, transparent);
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  animation: live-glow 2s ease-in-out infinite;
+  transition: filter 150ms;
+  &:hover { filter: brightness(1.1); }
+}
+
+@keyframes live-glow {
+  0%, 100% { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 0 0 1px color-mix(in srgb, var(--gold-2) 60%, transparent), 0 0 12px -2px rgb(239 68 68 / 0.5); }
+  50% { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 0 0 1px var(--gold-1), 0 0 26px 2px rgb(239 68 68 / 0.65); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-live { animation: none; }
+}
+
+/* Overlay OBS : le fond doit rester transparent. */
+body.overlay {
+  background: transparent;
+  background-image: none;
+  min-height: 0;
+  overflow: hidden;
+}
